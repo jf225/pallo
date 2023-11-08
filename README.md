@@ -29,3 +29,46 @@ model.findBestUnderDrawdown(.90, 12, .2)
 model.showStats()
 
 ```
+
+# Object and Method Details
+**gphrModel(dataset):**\
+This is the object that will hold all calculations and information related to the inputted dataset.
+>Dataset Specifications For Proper Function:
+ - Must be a 2d list that holds the percentage price movements of each asset.
+ - Each sub-list in the dataset must be of equal length to one another
+ - The period (timeframe) referenced in each object of each sublist must be equal in all sublists
+ - The dataset has a minimum asset count of 2 and an uncapped maximum
+
+**defineBins(numBins=5):**\
+This method will take the dataset you have inputted and create the probabilistic range as well as setup the most of the attributes for computation.
+>Parameters:
+ - numBins
+    - This parameter determines how many probability bins are to be created for the model. This will have a low-moderate impact on the speed of computation and granularity of results.
+    - Default: 5
+    - Minimum to function: 3
+    - No Maximum, however, the more you add the longer the computations will take later.
+
+**calcGPHRs(portfolioLimit=.33):**\
+This method will calculate all of the possible combinations of asset allocations within the portfolio limit.
+>Parameters:
+ - portfolioLimit
+   - This is the amount of the overall portfolio that you will allow to compute. This will have a very high impact on the speed of computation, lower = faster, higher = slower. Consider lowering the input from default if your assets are highly volatile or you are seeking a low risk of hitting your drawdown constraint. Consider raising the input from default if your assets aren't volatile.
+   - Default: .33
+   - Minimum: .01
+   - No Maximum for the method to function properly but to calculate for cash accounts 1.0 would equate to your entire account value. The input should exceed 1.0 for margin accounts.
+
+**findBestUnderDrawdown(drawdownConstraint, periods, percentChance, extraBranches=False):**\
+This method will do a pseudo tree traversal to calculate the best asset allocation that has a percent change below percentChance of hitting your drawdown constraint.
+>Parameters:
+ - drawdownConstraint
+   - This will determine your drawdown constraint over the trading period. .90 equates to a 10% decrease on initial capitalization.
+   - Minimum: .01
+   - Maximum: .99
+ - periods
+   - This is the number of trading periods you want to calculate for. The timeframe for the period is the same as the timeframe between each percent change in your dataset.
+   - Minimum: 1
+   - No Maximum but it should be noted that as the periods grow larger the chance of hitting your drawdown will increase so you will find that the percentage of your overall portfolio you can trade will decrease.
+   - This has a moderate impact on computation speed.
+ - percentChance
+   - This determines what percent chance you are willing to have of hitting your drawdown constraint over the trading period.
+   - 
