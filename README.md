@@ -39,7 +39,7 @@ This is the object that will hold all calculations and information related to th
  - The period (timeframe) referenced in each object of each sublist must be equal in all sublists
  - The dataset has a minimum asset count of 2 and an uncapped maximum
 
-**defineBins(numBins=5):**\
+**gphrModel.defineBins(numBins=5):**\
 This method will take the dataset you have inputted and create the probabilistic range as well as setup the most of the attributes for computation.
 >Parameters:
  - numBins
@@ -48,7 +48,7 @@ This method will take the dataset you have inputted and create the probabilistic
     - Minimum to function: 3
     - No Maximum, however, the more you add the longer the computations will take later.
 
-**calcGPHRs(portfolioLimit=.33):**\
+**gphrModel.calcGPHRs(portfolioLimit=.33):**\
 This method will calculate all of the possible combinations of asset allocations within the portfolio limit.
 >Parameters:
  - portfolioLimit
@@ -57,7 +57,7 @@ This method will calculate all of the possible combinations of asset allocations
    - Minimum: .01
    - No Maximum for the method to function properly but to calculate for cash accounts 1.0 would equate to your entire account value. The input should exceed 1.0 for margin accounts.
 
-**findBestUnderDrawdown(drawdownConstraint, periods, percentChance, extraBranches=False):**\
+**gphrModel.findBestUnderDrawdown(drawdownConstraint, periods, percentChance, extraBranches=False):**\
 This method will do a pseudo tree traversal to calculate the best asset allocation that has a percent change below percentChance of hitting your drawdown constraint.
 >Parameters:
  - drawdownConstraint
