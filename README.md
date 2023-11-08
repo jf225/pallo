@@ -115,3 +115,8 @@ This method will calculate all of the best Sharpe ratios in the list of possible
  - Will be adding additional methods that adjust asset allocations depending upon ROI between periods.
  - Planning to add saving and recovering methods.
  - Also working towards a multiprocessing solution to reduce computation times.
+
+# Recent Changes
+v0.2.0
+  - New efModel is finished with the ability to input any length stock list and find the best possible asset allocation of a combination of three stocks.
+  - Cleaned up and updated README.
