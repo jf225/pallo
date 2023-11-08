@@ -28,6 +28,18 @@ model.findBestUnderDrawdown(.90, 12, .2)
 #Print the best possible asset allocation under the inputted drawdown constraint.
 model.showStats()
 
+
+
+
+#Find the best possible Sharpe ratio out of a collection of stocks
+allStocks = ["BK", "MTZ", "SGRY", "AA", "ARCB", "RDNT", "MMYT", "DECK", "TEO", "WK"]
+
+#Make a efModel object and input the list of stocks
+mod = efModel(allStocks)
+
+#Returns the best possible Sharpe ratio, stocks, and asset allocation
+print(mod.findMaxSharpe())
+
 ```
 
 # Object and Method Details
@@ -78,10 +90,27 @@ This method will do a pseudo tree traversal to calculate the best asset allocati
    - This should only be set to true after extensive testing as this will **significantly** increase computation time. However, if this is set to true the results will be significantly more accurate and viable for use. With this set to false the results will not be consistent however the computation time is low and testing is more viable.
    - Default: False
 
+**efModel(stockList):**\
+This object will intake a list of stocks and then calculate the best combination of three stocks and weights to produce the highest possible Sharpe ratio out of the inputted stocks.
+>Stock List Specifications for Proper Function:
+ - Must be List of stock tags as strings
+ - Minimum: 2
+ - Uncapped Maximum
+
+**efModel.findMaxSharpe(timeIncluded)**
+This method will calculate all of the best Sharpe ratios in the list of possible stock combinations and output the best possible Sharpe ratio and the asset allocation that achieves it.
+>Parameters:
+ - timeIncluded
+   - Integer that determines how many days prior to today will be included in the calculation of Sharpe ratios
+   - Minimum: 1 (More if previous days were weekend or holiday)
+   - Maximum: Uncapped
+
 # Roadmap
->Efficient Frontier Model
- - The next model created is going to be a model that will output asset allocations to maximize the Sharpe ratio of the portfolio.
+>Efficient Frontier Model Additional Customization
+ - Add the ability to import custom datasets rather than downloading from yfinance.
+ - Return a list of all Sharpe ratios and asset allocations.
+ - Allow different numbers of final stock combinations aside from the default 3.
 >Expanding Options/Interperiod Methods For gprhModel
  - Will be adding additional methods that adjust asset allocations depending upon ROI between periods.
- - Planning to add saving and recovering methods
- - Also working towards a multiprocessing solution to reduce computation times
+ - Planning to add saving and recovering methods.
+ - Also working towards a multiprocessing solution to reduce computation times.
