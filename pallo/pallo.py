@@ -2,6 +2,11 @@ from itertools import combinations
 import random
 from itertools import product
 from tqdm import tqdm
+import numpy as np
+import datetime as dt
+from pandas_datareader import data as pdr
+import scipy.optimize as sc
+import yfinance as yf
 
 class gphrModel:
 
@@ -377,6 +382,7 @@ class gphrModel:
 		self.underDrawGHPR = bestGHPRavail
 		self.probOfDraw = probofnet/totalofnhpr
 
+		print("Found best asset distribution under constraint.")
 		return bestValues
 
 
@@ -391,3 +397,63 @@ class gphrModel:
 		print(self.binSets)
 
 
+class efModel:
+	sLists = []
+	weights = np.array([0.3, 0.3, 0.4])
+	bestStocks = []
+	bestSharpe = 0
+	bestWeight = []
+
+	def __init__(self, stockList):
+		yf.pdr_override()
+		self.sLists = [",".join(map(str, comb)) for comb in combinations(stockList, 3)]
+
+	def getData(self, stocks, start, end):
+	    stockData = pdr.get_data_yahoo(stocks, start=start, end=end, progress=False)
+	    stockData = stockData['Close']
+
+	    returns = stockData.pct_change()
+	    meanReturns = returns.mean()
+	    covMatrix = returns.cov()
+	    return meanReturns, covMatrix
+
+	def portfolioPerformance(self, weights, meanReturns, covMatrix):
+	    returns = np.sum(meanReturns*weights)*20
+	    std = np.sqrt(np.dot(weights.T,np.dot(covMatrix, weights)))*np.sqrt(20)
+	    return returns, std
+
+	def negativeSR(self, weights, meanReturns, covMatrix, riskFreeRate = 0):
+	    pReturns, pStd = self.portfolioPerformance(weights, meanReturns, covMatrix)
+	    return - (pReturns - riskFreeRate)/pStd
+
+	def maxSR(self, meanReturns, covMatrix, riskFreeRate = 0, constraintSet=(0,1)):
+	    numAssets = len(meanReturns)
+	    args = (meanReturns, covMatrix, riskFreeRate)
+	    constraints = ({'type': 'eq', 'fun': lambda x: np.sum(x) - 1})
+	    bound = constraintSet
+	    bounds = tuple(bound for asset in range(numAssets))
+	    result = sc.minimize(self.negativeSR, numAssets*[1./numAssets], args=args, method='SLSQP', bounds=bounds, constraints=constraints)
+	    return result
+
+
+	def findMaxSharpe(self, timeIncluded):
+		print("\nCalculating best Sharpe Ratios for inputted stocks.")
+		endDate = dt.datetime.now()
+		startDate = (endDate - dt.timedelta(days=timeIncluded)).date()
+
+		for i in tqdm(range(0, len(self.sLists))):
+		    stockList = self.sLists[i].split(",")
+		    stocks = [stock for stock in stockList]
+		    meanReturns, covMatrix = self.getData(stocks, startDate, endDate)
+		    returns, std = self.portfolioPerformance(self.weights, meanReturns, covMatrix)
+
+
+		    result = self.maxSR(meanReturns, covMatrix)
+		    maxSharpe, maxWeights = result['fun']*-1, result['x']
+
+		    if maxSharpe > self.bestSharpe:
+		        self.bestSharpe = maxSharpe
+		        self.bestWeight = maxWeights
+		        self.bestStocks = stocks
+
+		return self.bestStocks, self.bestWeight, self.bestSharpe
