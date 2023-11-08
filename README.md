@@ -71,4 +71,9 @@ This method will do a pseudo tree traversal to calculate the best asset allocati
    - This has a moderate impact on computation speed.
  - percentChance
    - This determines what percent chance you are willing to have of hitting your drawdown constraint over the trading period.
-   - 
+   - Minimum: .01
+   - Maximum: 1.0
+   - This has a moderate impact on computation speed.
+ - **extraBranches**
+   - This should only be set to true after extensive testing as this will **significantly** increase computation speed. However, if this is set to true the results will be significantly more accurate and viable for use. With this set to false the results will not be consistent however the computation speed is low and testing is more viable.
+   - Default: False
