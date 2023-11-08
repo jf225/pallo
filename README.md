@@ -11,7 +11,7 @@ This is a Python package available on PyPi that simplifies the creation and usag
     pip install pallo
 
 # Usage
-In v0.1.4 there is only one currently available asset allocation model available, however, there are plans for additional options in the future.
+In v0.1.4 there is only one asset allocation model currently available, however, there are plans for additional options in the future.
 ```
 #Load a custom dataset as a 2d list with each asset's percentage price moves as a one list 
 dataset = [[-.42, 1.3, .18, -1.2, -.74], [2.1, -3.4, 1.1, .98, -4.3], [1.1, .72, .31, -.11, -1.4]]
