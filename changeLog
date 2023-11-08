@@ -1,0 +1,9 @@
+v0.2.0
+  - New efModel is finished with the ability to input any length stock list and find the best possible asset allocation of a combination of three stocks.
+  - Cleaned up and updated README.
+
+v0.1.1 - v0.1.5
+  These versions changes were just minor changes to the clean up the code or README file.
+  
+v0.1.0
+  Version 0.1 had a completed gphrModel.
