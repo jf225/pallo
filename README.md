@@ -39,7 +39,7 @@ allStocks = ["BK", "MTZ", "SGRY", "AA", "ARCB", "RDNT", "MMYT", "DECK", "TEO", "
 mod = efModel(allStocks)
 
 #Returns the best possible Sharpe ratio, stocks, and asset allocation
-print(mod.findMaxSharpe())
+print(mod.findMaxSharpe(30))
 
 ```
 
