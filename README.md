@@ -1,4 +1,4 @@
-# pallo v0.1.1
+# pallo v0.1.3
 
 This is a Python package available on PyPi that simplifies the creation and usage of probabilistic asset allocation models.
 
@@ -52,7 +52,7 @@ This method will take the dataset you have inputted and create the probabilistic
 This method will calculate all of the possible combinations of asset allocations within the portfolio limit.
 >Parameters:
  - portfolioLimit
-   - This is the amount of the overall portfolio that you will allow to compute. This will have a very high impact on the speed of computation, lower = faster, higher = slower. Consider lowering the input from default if your assets are highly volatile or you are seeking a low risk of hitting your drawdown constraint. Consider raising the input from default if your assets aren't volatile.
+   - This is the percentage of the overall portfolio available funds that you will allow to compute. This will have a very high impact on the speed of computation, lower = faster, higher = slower. Consider lowering the input from default if your assets are highly volatile or you are seeking a low risk of hitting your drawdown constraint. Consider raising the input from default if your assets aren't volatile.
    - Default: .33
    - Minimum: .01
    - No Maximum for the method to function properly but to calculate for cash accounts 1.0 would equate to your entire account value. The input should exceed 1.0 for margin accounts.
