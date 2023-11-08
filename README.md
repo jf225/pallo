@@ -77,3 +77,11 @@ This method will do a pseudo tree traversal to calculate the best asset allocati
  - **extraBranches**
    - This should only be set to true after extensive testing as this will **significantly** increase computation speed. However, if this is set to true the results will be significantly more accurate and viable for use. With this set to false the results will not be consistent however the computation speed is low and testing is more viable.
    - Default: False
+
+# Roadmap
+>Efficient Frontier Model
+ - The next model created is going to be a model that will output asset allocations to maximize the Sharpe ratio of the portfolio.
+>Expanding Options/Interperiod Methods For gprhModel
+ - Will be adding additional methods that adjust asset allocations depending upon ROI between periods.
+ - Planning to add saving and recovering methods
+ - Also working towards a multiprocessing solution to reduce computation times
