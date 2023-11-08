@@ -5,5 +5,5 @@ This is a Python package available on PyPi that simplifies the creation and usag
 **Pallo currently supports:**
  - Geometric Mean Maximization
  - Custom Drawdown constraints
- - Margin Trading Calculations
+ - Margin Trading Calculation Options
 
