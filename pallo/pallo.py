@@ -391,10 +391,3 @@ class gphrModel:
 		print(self.binSets)
 
 
-
-
-#mod = gphrModel(createDataset())
-#mod.defineBins(10)
-#mod.calcGPHRs(.20)
-#mod.findBestUnderDrawdown(.97, 10, .10)
-#mod.showStats()
