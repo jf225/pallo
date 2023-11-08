@@ -1,4 +1,4 @@
-# pallo v0.1.4
+# pallo v0.2.0
 
 This is a Python package available on PyPi that simplifies the creation and usage of probabilistic asset allocation models.
 
@@ -6,12 +6,13 @@ This is a Python package available on PyPi that simplifies the creation and usag
  - Geometric Mean Maximization
  - Custom Drawdown constraints
  - Margin Trading Calculation Options
+ - Maximizing Sharpe Ratios
 
 # Installation
     pip install pallo
 
 # Usage
-In v0.1.4 there is only one asset allocation model currently available, however, there are plans for additional options in the future.
+In v0.2.0 there are two asset allocation models currently available, a geometric mean maximization model and an efficient frontier model. There are plans for additional options in the future.
 ```
 #Load a custom dataset as a 2d list with each asset's percentage price moves as a one list 
 dataset = [[-.42, 1.3, .18, -1.2, -.74], [2.1, -3.4, 1.1, .98, -4.3], [1.1, .72, .31, -.11, -1.4]]
