@@ -1,4 +1,4 @@
-# pallo v0.2.0
+# pallo v0.2.1
 
 This is a Python package available on PyPi that simplifies the creation and usage of probabilistic asset allocation models.
 
@@ -12,10 +12,12 @@ This is a Python package available on PyPi that simplifies the creation and usag
     pip install pallo
 
 # Usage
-In v0.2.0 there are two asset allocation models currently available, a geometric mean maximization model and an efficient frontier model. There are plans for additional options in the future.
+In v0.2.1 there are two asset allocation models currently available, a geometric mean maximization model and an efficient frontier model. There are plans for additional options in the future.
 ```
-#Load a custom dataset as a 2d list with each asset's percentage price moves as a one list 
-dataset = [[-.42, 1.3, .18, -1.2, -.74], [2.1, -3.4, 1.1, .98, -4.3], [1.1, .72, .31, -.11, -1.4]]
+#Load a custom dataset as a 2d list with each asset's percentage price moves as a one list
+#Use the createDataset() method to create a 2d list to use with the gphrModel
+stocks = ["SGRY", "AA", "MTX"]
+dataset = createDataset(stocks, 30)
 
 #Create a gphrModel object and load the dataset
 model = gphrModel(dataset)
@@ -90,7 +92,18 @@ This method will do a pseudo tree traversal to calculate the best asset allocati
  - **extraBranches**
    - This should only be set to true after extensive testing as this will **significantly** increase computation time. However, if this is set to true the results will be significantly more accurate and viable for use. With this set to false the results will not be consistent however the computation time is low and testing is more viable.
    - Default: False
-
+     
+**createDataset(stockList, timeIncluded):**\
+This is a method that will turn a list of stocks into a usable 2d dataset for the gphrModel object.
+>Parameters:
+ - stockList
+   - Input that determines the stocks the dataset is based off
+   - Current functionality requires that the stock list length must be 3 exactly
+ - Time Included
+   - Integer that determines how many days prior to today will be included in the creation of the datset
+   - Minimum: 1 (More if previous days were weekend or holiday)
+   - Maximum: Uncapped
+   
 **efModel(stockList):**\
 This object will intake a list of stocks and then calculate the best combination of three stocks and weights to produce the highest possible Sharpe ratio out of the inputted stocks.
 >Stock List Specifications for Proper Function:
@@ -117,6 +130,9 @@ This method will calculate all of the best Sharpe ratios in the list of possible
  - Also working towards a multiprocessing solution to reduce computation times.
 
 # Recent Changes
+v0.2.1
+  - Added the createDataset() method to make it easier to test the gphrModel
+    
 v0.2.0
   - New efModel is finished with the ability to input any length stock list and find the best possible asset allocation of a combination of three stocks.
   - Cleaned up and updated README.
