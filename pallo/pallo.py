@@ -8,6 +8,96 @@ from pandas_datareader import data as pdr
 import scipy.optimize as sc
 import yfinance as yf
 
+
+def createDataset(stockList, timeIncluded):
+	yf.pdr_override()
+
+
+	endDate = dt.datetime.now()
+	startDate = endDate - dt.timedelta(days=timeIncluded)
+
+	stocks = stockList
+
+	change1 = []
+	change2 = []
+	change3 = []
+	index1 = []
+	index2 = []
+	index3 = []
+	#price1 = 0
+	#price2 = 0
+	#price3 = 0
+
+	numshares = 1
+
+	k = 0
+	for stock in stocks:
+
+		data = yf.download(stock, period="1mo", interval="15m")
+
+		print("\n\n", stock)
+
+		closedata = data.Close
+		numtimes = len(closedata)
+		#print(closedata)
+		changes = []
+		priv = 0
+		#price = closedata[0]
+		for item in closedata:
+			outcome = item - priv
+			changes.append(outcome)
+			#price += outcome
+			priv = item
+		#price = closedata[0]
+		changes.remove(closedata[0])
+		closedata = closedata.reset_index()
+		index = []
+		for item in closedata.Datetime:
+			index.append(item)
+		#print("THING:",index)
+		if k == 0:
+			index1 = index
+			change1 = changes
+			#price1 = price
+		if k == 1:
+			index2 = index
+			change2 = changes
+			#price2 = price
+		if k == 2:
+			index3 = index
+			change3 = changes
+			#price3 = price
+		k = k + 1
+
+	lowest = len(index1)
+	if len(index2) < lowest:
+		lowest = len(index2)
+	if len(index3) < lowest:
+		lowest = len(index3)
+
+	for i in range(0, lowest):
+		#print(i)
+		if index1[i] != index2[i]:
+			if index1[i+1] == index2[i]:
+				index1.pop(i)
+				change1.pop(i)
+			else:
+				index2.pop(i)
+				change2.pop(i)
+		if index1[i] != index3[i]:
+			if index1[i+1] == index3[i]:
+				index1.pop(i)
+				change1.pop(i)
+			else:
+				index3.pop(i)
+				change3.pop(i)
+
+	dataset = []
+	dataset.append(change1)
+	dataset.append(change2)
+	dataset.append(change3)
+	return dataset
+
 class gphrModel:
 
 	dataset = []
